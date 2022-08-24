@@ -53,7 +53,7 @@ memo = []
 - 비선형구조의 그래프 구조는 표현된 모든 자료를 빠짐없이 검색하는 것이 중요하다.
 
 1. 깊이 우선 탐색(Depth First Search, DFS)
-2. 너비 우선탐색(Breath First Search, BFS)
+2. 너비 우선탐색(Breadth First Search, BFS)
 
 Stack에서는 DFS에 대해서 알아보자.
 
