@@ -81,9 +81,9 @@ MVC(Model View Controller)
 MTV(Model Template View)  
 
 <center> MVC MTV  </center>
-<center>Model &rightarrow;  Model  </center>
-<center>View  &rightarrow;  Template  </center>
-<center>Controller &rightarrow;  View </center>
+<center>Model &rightarrow;  Model  </center>  
+<center>View  &rightarrow;  Template  </center>  
+<center>Controller &rightarrow;  View </center>  
 
 
 
