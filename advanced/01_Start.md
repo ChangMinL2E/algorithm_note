@@ -72,7 +72,103 @@
 
 &Rightarrow; 효율적인 알고리즘이 컴퓨터 기능보다 더 큰 가치가 있다.  
 
+--- 
+### 03 비트 연산  
 
+- 1 << n  
+: $2^n$  
+  원소가 n개일 경우 모든 부분집합의 수  
+  Power set(멱집합)  
+  
+- i & (i << j)  
+: i의 j번째 비트가 1인지 아닌지를 의미  
+  
 
+- 특정 위치의 비트값을 확인 예제  
+```python
+# Bitprint - 8bit의 문자형 변수에 저장된 비트값들을 출력하는 함수
+def BitPrint(i):
+    for j in range(7,-1,-1):
+        print('1' if (i &(1<<j)) else '0', end="")
+        # print("%d" % ((i>>j)&1), end="")
 
+for i in range(-5,6):
+    print("%2d = " %i, end = "") # 십진수 출력
+    BitPrint(i) # 이진수 출력
+    print()
+```  
+```python
+a = 0x10
+x = 0x01020304
+print("%d = " % a, end="")
+BitPrint(a)
+print()
+print("%08x = " %x, end="")
+for i in range(0,25,8):
+  BitPrint(x>>i)
+  print(end="")
+```
 
+- 엔디안(Endianness)  
+: 컴퓨터의 메모리와 같은 1차원의 공간에 여러 개의 연속된 대상을 배열하는 방법  
+  - 주의 사항  
+  속도 향상을 위해 바이트 단위와 워드 단위를 변환, 연산시 올바르게 이해하지 않으면 오류 발생  
+    
+- Big-endian : 보통 큰 단위가 앞에 나온다, 네트워크  
+- Little-endian : 작은 단위가 앞에 나온다, 대다수 데스크탑 컴퓨터  
+
+```python
+# 어떤 엔디안 방식인지 확인하는 코드  
+n = 0x00111111
+
+if n & 0x11:
+    print("little endian")
+else:
+    print("big endian")
+```
+```python
+# XOR 연산자를 두번 사용하면 처음 값과 같다.  
+a = 0x86
+key = 0xAA
+
+BitPrint(a)
+print()
+
+a ^= key
+BitPrint(a)
+print()
+
+a ^= key
+BitPrint(a)
+print()
+
+# 출력값 확인하세요.
+```
+---
+### 04 진수  
+
+진수 변환은 10 &rightarrow; 2,8,16 이 있고, 2,8,16 &rightarrow; 10 이 있다.  
+
+보수란?  
+&Rightarrow; 두수의 합이 진법의 밑수가 되게 하는 
+수
+- 절대값 표현, 1,2의 보수 표현  
+: 제일 앞의 비트는 부호를 의미하고, 나머지는 값의 절대값을 비트로 표현한다.  
+1의 보수는 부호 비트를 제외한 나머지 비트를 0&rightarrow;1, 1&rightarrow;0 로 반전시킨 표현  
+  2의 보수는 1의 보수의 최하위 비트에 1을 더한 표현
+
+---
+### 05 실수  
+
+- 부동 소수점(Flaoting-point) 표기법  
+: 소수점의 위치를 고정시켜 표현하는 방식 (지수 제곱을 이용한 표기법)
+  1001.0011 &rightarrow; 1.0010011 x $2^3$
+  
+- 컴퓨터 실수 저장 형식  
+단정도 실수(32bit), 배정도 실수(64bit)로 나뉜다.  
+  python에서 float은 8bit이므로 배정도 실수를 사용한다.  
+  가수부(Mantissa)  
+  : 실수의 유효 자릿수들을 부호화된 고정 소수점으로 표현한 것  
+  지수부(Exponent)  
+  : 실제 소수점의 위치를 지수 승으로 표현한 것  
+  
