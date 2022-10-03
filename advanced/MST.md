@@ -204,6 +204,91 @@ def dijkstra():
 : P[i]는 직전 노드를 의미하는데, 만약 D[i] < D[curV]+G[curV][i]면 기존 방식이 저장될텐데, P[i]를 수정해도 될까?  
   &rightarrow; 수정해줘야 한다.  
   
+---  
+### Kruskal  
 
+- 크루스칼  
+: 전체 간선의 가중를 오름차순으로 정렬  
+  &rightarrow; cycle이 되지 않게 낮은 순으로 n-1개의 간선을 선택한다.  
+
+
+- Kruskal algorithm  
+```python
+# Kruskal
+
+def find_set(x):
+    while x != rep[x]:
+        x = rep[x]
+    return x
+
+
+def union(x, y):
+    rep[find_set(y)] = find_set(x)
+
+
+V, E = map(int, input().split())
+edge = []
+for _ in range(E):
+    u, v, w = map(int, input().split())
+    edge.append([u, v, w])
+edge.sort(key=lambda x:x[2])
+rep = [i for i in range(V+1)]   # 대표원소 배열
+
+N = V + 1   # 실제 정점 수
+cnt = 0     # 선택한 edge의 수
+total = 0   # MST 가중치의 합
+for u, v, w in edge:
+    if find_set(u) != find_set(v):
+        cnt += 1
+        union(u, v)
+        total += w
+        if cnt == N-1:  # 간선 수
+            break
+print(total)
+```
+  
+- 대표자를 찾는 코드  
+```python
+def find_set(x): # 대표자를 찾는 함수.
+    while x != rep[x]: # 만약 자기 자신이 root가 아니면,
+        x = rep[x] # root를 찾아낼때까지 간다.
+    return x # x의 root 노드 반환.
+```
+
+- union 함수  
+idea) 지정하는 대표자를 바꿔준다.  
+  `rep[y] = rep[x]`  
+  
+```python
+def union(x, y):
+    # y의 root를 x의 root로 지정을 바꾼다. / 화살표를 틀어준 느낌
+    rep[find_set(y)] = find_set(x)
+```
+  
+- Kruskal 전체 해석  
+```python
+V, E = map(int, input().split()) # vertex, edge 갯수
+edge = []
+for _ in range(E): # [start,end,weight]로 edge 저장.
+    u, v, w = map(int, input().split())
+    edge.append([u, v, w])
+edge.sort(key=lambda x:x[2]) # weight 기준 오름차순 정
+rep = [i for i in range(V+1)]   # 각 원소별 root노드 
+
+N = V + 1   # 실제 정점 수 
+cnt = 0     # 선택한 edge의 수
+total = 0   # MST 가중치의 합
+for u, v, w in edge:
+    # root가 같은 원소를 연결하면, cycle이 된다. 이를 방지
+    if find_set(u) != find_set(v): 
+        cnt += 1 # edge 갯수 추가 
+        union(u, v) # root rep[v] <- rep[u]
+        total += w # 가중치 더해준다.
+        if cnt == N-1:  # edge = Node -1 / MST 완성
+            break
+print(total) # 필요에 맞게 코드 짜면 좋을듯.
+```
+
+&Rightarrow; 둘다 library를 사용하지 않으면, kruskal이 prim에 비해 memory를 적게 사용할 것 같다.
 
 
