@@ -118,7 +118,92 @@ def prim(G):
 ---  
 ### Dijkstra  
 
+- 최단 경로  
+: 가중치가 있는 그래프에서 두 정점 사이의 경로들 중에 간선의 가중치의 합이 최소인 경로  
+  
+&rightarrow; 다익스트라 알고리즘은 음의 가중치를 허용하지 않는 최단 경로 알고리즘이다.  
 
+- dijkstra algorithm
+```python
+def dijkstra():
+    U = []
+    D = [10000] * (N + 1)  # infinite 대신 10000을 적어줬다.
+    P = [10000] * (N + 1)
+    D[0] = 0
+    while len(U) < N + 1:
+        # D에서 최소를 구한다.(단, U에 포함되지 않은 것을 대상으로
+        minV = 10000
+        for i in range(N + 1):
+            if i in U: continue
+            if minV > D[i]:
+                minV = D[i]
+                curV = i
+
+        U.append(curV)
+        # i와 연결된 정점들의 D를 수정
+        for i in range(N + 1):
+            if i in U: continue
+            # if G[curV][i] and D[i] > D[curV] + G[curV][i]:
+            #     D[i] = G[curV][i]
+            #     P[i] = curV
+            if G[curV][i]:
+                D[i] = min(D[i], D[curV]+G[curV][i])
+                P[i] = curV
+
+    print(U, D, P)
+
+
+N, E = map(int, input().split())
+G = [[0] * (N + 1) for _ in range(N + 1)]  # 인접행렬
+
+for i in range(E):
+    n1, n2, w = map(int, input().split())
+    G[n1][n2] = w
+    # G[n2][n1] = w
+print(G)
+dijkstra()
+```
+
+- dijkstra  
+: 한(시작) 정점에서 거리가 최소인 정점을 선택해 나가면서 최단 경로를 구하는 방식  
+  
+
+- 세부 주석
+```python
+def dijkstra():
+    U = []
+    D = [10000] * (Node)  # infinite 대신 10000을 적어줬다.
+    P = [10000] * (Node)
+    D[0] = 0
+    while len(U) < Node:
+        # D에서 최소를 구한다.(단, U에 포함되지 않은 것을 대상으로)
+        minV = 10000
+        for i in range(Node):
+            if i in U: continue
+            if minV > D[i]:
+                minV = D[i]
+                curV = i
+
+        U.append(curV) # 여기까지는 Prim이랑 같다.
+        
+        # i와 연결된 정점들의 D를 수정
+        for i in range(Node):
+            if i in U: continue
+            # if G[curV][i] and D[i] > D[curV] + G[curV][i]:
+            #     D[i] = G[curV][i]
+            #     P[i] = curV
+            
+            # 연결 되어있는데, 기존 갈수 있는 거리와, 지금 가려는 방식중 어떤것이 더 가까운가?!
+            if G[curV][i]: 
+                # D[i] : 기존 거리, D[curV]+G[curV][i]: curV까지 온 거리 + curV에서 i로 가는 거리
+                D[i] = min(D[i], D[curV]+G[curV][i]) # D[i]
+                P[i] = curV
+```
+
+- 의문  
+: P[i]는 직전 노드를 의미하는데, 만약 D[i] < D[curV]+G[curV][i]면 기존 방식이 저장될텐데, P[i]를 수정해도 될까?  
+  &rightarrow; 수정해줘야 한다.  
+  
 
 
 
